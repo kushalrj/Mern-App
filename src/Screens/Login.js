@@ -1,26 +1,31 @@
 import React ,{useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function Login() {
   const [credentials, setcredentials] = useState({email:"",password:""})
+  let navigate = useNavigate()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const response = await fetch("http://localhost:5000/api/loginuser", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: credentials.email, password: credentials.password })
+        });
+        const json = await response.json();
+        if (!json.success) {
+            alert(json.error || 'Error in logging in');
+        } else {
+            navigate("/");
+        }
+    } catch (error) {
+        console.error(error);
+        alert('An error occurred, please try again later');
+    }
+}
 
-  const handleSubmit = async(e)=>{
-      e.preventDefault();
-      console.log(JSON.stringify({email:credentials.email, password:credentials.password}));
-      const response = await fetch("http://localhost:5000/api/creatuser",{
-          method:'POST',
-          headers:{
-              'Content-Type':'application/json'
-          },
-          body:JSON.stringify({email:credentials.email, password:credentials.password})
-      });
-      const json= await response.json()
-      console.log(json);
-
-      if(!json.success){
-        alert('Error in signing up')
-      }
-  }
 
   const onChange=(e)=>{
     setcredentials({...credentials,[e.target.name]:e.target.value})
