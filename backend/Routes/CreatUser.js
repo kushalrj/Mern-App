@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User= require('../models/User')
 const { body, validationResult } = require( 'express-validator');
+router.use(express.json());
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -21,7 +22,7 @@ async(req,res)=>{
 
         await User.create({
                 name,
-                password,
+                password: secPassword,
                 email,
                 location
         }).then(res.json({success:true}))
@@ -50,11 +51,13 @@ async(req,res)=>{
       if(!userData){
         return res.status(400).json({ errors: "Not exist account"});
       }
-      if(password!==userData.password){
+      const pswdCompare= await bcrypt.compare(password,userData.password)
+      if(!pswdCompare){
         //here password is from our input req and userData is from server side!
         return res.status(400).json({ errors: "wrong password"});
       }
-      return res.json({ success:true});
+      const authToken = jwt.sign({ id: userData._id }, "sharmajikikey");
+      return res.json({ success:true, authToken:authToken});
         
     }
     catch(error){
