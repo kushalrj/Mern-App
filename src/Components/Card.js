@@ -1,11 +1,11 @@
 import React from 'react'
 
-export default function Card() {
+export default function Card(props) {
     return (
         <div>  <div className="card mt-3 " style={{ "width": "18rem" }}>
             <img className="card-img-top" src="https://www.sainsburysmagazine.co.uk/uploads/media/720x770/06/7696-chilli_paneer_skewers.jpg?v=1-0" alt="Card image cap" />
             <div className="card-body">
-                <h5 className="card-title">Card title</h5>
+                <h5 className="card-title">{props.name}</h5>
                 <p className="card-text">Some quick example text to buildthe card's content.</p>
                 <div className='container w-100'>
                     <select className='m-2 h-100 bg-sucess'>

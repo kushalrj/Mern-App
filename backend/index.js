@@ -13,11 +13,12 @@ app.use((req,res,next)=>{
   next();
 })
 app.get('/', (req, res) => {
-  res.send('Hello Wodscsddrld!')
+  res.send('Hello Worlld!')
 })
 
 app.use(express.json())
 app.use('/api', require("./Routes/CreatUser.js"));
+app.use('/api', require("./Routes/DisplayData.js"));
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
