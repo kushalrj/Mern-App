@@ -6,7 +6,7 @@ export default function Card(props) {
     let priceOptions= Object.keys(options);
     return (
         <div>  <div className="card mt-3 " style={{ "width": "18rem" }}>
-            <img className="card-img-top" src={props.img} alt="Card image cap" />
+            <img className="card-img-top" src={props.img} alt="Card image cap"  style={{height:"120px",objectFit:"cover"}}/>
             <div className="card-body">
                 <h5 className="card-title">{props.name}</h5>
             
